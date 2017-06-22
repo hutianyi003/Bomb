@@ -30,7 +30,15 @@ ChessBoard::ChessBoard(int xx, int yy, int n) :x(xx), y(yy), num(n)
 
 bool UserBoard::isFinish()
 {
-	return false;
+	for (int i = 0; i < x; i++)
+		for (int j = 0; j < y; j++) {
+			if (isBomb(i, j) == false){
+				if (userboard[i][j] == meanOpen)
+					continue;
+				return false;
+			}
+		}
+	return true;
 }
 
 UserBoard::UserBoard(int xx, int yy, int n) :ChessBoard(xx, yy, n)
@@ -59,6 +67,9 @@ bool UserBoard::LeftClick(int x, int y)
 			return true;
 		}
 		//search for all 0 points and show numbers
+		if (isFinish()) {
+			// GUI :finish
+		}
 		return true;
 	}
 	if (userboard[x][y] == meanOpen) {
@@ -98,3 +109,4 @@ inline bool UserBoard::isFlag(int x, int y) {
 inline bool UserBoard::isOpen(int x, int y) {
 	return (userboard[x][y] == meanOpen);
 }
+//123
