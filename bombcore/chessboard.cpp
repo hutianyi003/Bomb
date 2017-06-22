@@ -60,6 +60,23 @@ UserBoard::UserBoard(int xx, int yy, int n) :ChessBoard(xx, yy, n)
 	return;
 }
 
+bool UserBoard::search(int nowx, int nowy) {
+	// GUI :open (x,y)
+	hasWalk[nowx][nowy] = true;
+	userboard[nowx][nowy] = meanOpen;
+	if (numboard[nowx][nowy] > 0)
+		return true;
+	for (int i = 0; i < 8; i++) {
+		int nextx = nowx + DeltaMove[i][0], nexty = nowy + DeltaMove[i][1];
+		if (isGoodPosition(nextx, nexty) && hasWalk[nextx][nexty] == false
+			&& isBomb(nextx, nexty) == false && userboard[nextx][nexty] == meanCover) {
+			if (search(nextx, nexty) == false)
+				return false;
+		}
+	}
+	return true;
+}
+
 bool UserBoard::LeftClick(int x, int y)
 {
 	if (userboard[x][y] == meanFlag) {
@@ -68,12 +85,15 @@ bool UserBoard::LeftClick(int x, int y)
 		return true;
 	}
 	if (userboard[x][y] == meanCover) {
-		// GUI :open (x,y)
 		if (isBomb(x, y)) {
 			//GameOver
 			return true;
 		}
-		//search for all 0 points and show numbers
+		//reset hasWalk
+		for (int i = 0; i < ChessBoard::x; i++)
+			for (int j = 0; j < ChessBoard::y; j++)
+				hasWalk[i][j] = false;
+		if (search(x, y) == false) return false;
 		if (isFinish()) {
 			// GUI :finish
 		}
@@ -125,7 +145,7 @@ void ChessBoard::show(int output[MaxBoardN][MaxBoardN]) {
 	}
 	cout << endl;
 }
-
+/*
 void ChessBoard::showbomb() {
 	show(board);
 	return;
@@ -139,4 +159,4 @@ void UserBoard::showNumBoard() {
 void UserBoard::showUserBoard() {
 	show(userboard);
 	return;
-}
+}*/
