@@ -28,6 +28,11 @@ ChessBoard::ChessBoard(int xx, int yy, int n) :x(xx), y(yy), num(n)
 	}
 }
 
+inline bool ChessBoard::isGoodPosition(int x, int y) {
+	if (x >= 0 && y >= 0 && x <= ChessBoard::x && y <= ChessBoard::y)
+		return true;
+	return false;
+}
 bool UserBoard::isFinish()
 {
 	for (int i = 0; i < x; i++)
