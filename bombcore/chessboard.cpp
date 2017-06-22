@@ -145,7 +145,7 @@ void ChessBoard::show(int output[MaxBoardN][MaxBoardN]) {
 	}
 	cout << endl;
 }
-/*
+
 void ChessBoard::showbomb() {
 	show(board);
 	return;
@@ -159,4 +159,4 @@ void UserBoard::showNumBoard() {
 void UserBoard::showUserBoard() {
 	show(userboard);
 	return;
-}*/
+}

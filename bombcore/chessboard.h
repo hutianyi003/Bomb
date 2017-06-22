@@ -25,7 +25,7 @@ public:
 	ChessBoard(int, int, int); /*three positive numbers and no more than MaxBoardN*/
 	inline bool isBomb(int, int);
 	inline bool isGoodPosition(int, int);
-	//void showbomb();
+	void showbomb();
 };
 
 class UserBoard :public ChessBoard {
@@ -43,6 +43,6 @@ public:
 	inline bool isFlag(int, int);
 	inline bool isCover(int, int);
 	inline bool isOpen(int, int);
-//	void showUserBoard();
-//	void showNumBoard();
+	void showUserBoard();
+	void showNumBoard();
 };
