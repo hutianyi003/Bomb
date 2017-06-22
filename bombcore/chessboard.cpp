@@ -1,7 +1,9 @@
 #include<ctime>
+#include<iostream>
 #include<random>
 #include"chessboard.h"
 using namespace std;
+
 
 ChessBoard::ChessBoard(int xx, int yy, int n) :x(xx), y(yy), num(n)
 {
@@ -50,7 +52,7 @@ UserBoard::UserBoard(int xx, int yy, int n) :ChessBoard(xx, yy, n)
 {
 	for (int i = 0; i < x; i++)
 		for (int j = 0; j < y; j++) 
-			for (int k = 0; k < 4; k++) {
+			for (int k = 0; k < 9; k++) {
 				int nextx = i + DeltaMove[k][0], nexty = j + DeltaMove[k][1];
 				if (isGoodPosition(nextx, nexty) && isBomb(nextx, nexty))
 					numboard[i][j]++;
@@ -113,4 +115,28 @@ inline bool UserBoard::isFlag(int x, int y) {
 
 inline bool UserBoard::isOpen(int x, int y) {
 	return (userboard[x][y] == meanOpen);
+}
+
+void ChessBoard::show(int output[MaxBoardN][MaxBoardN]) {
+	for (int i = 0; i < x; i++) {
+		for (int j = 0; j < y; j++)
+			cout << output[i][j] << ' ';
+		cout << endl;
+	}
+	cout << endl;
+}
+
+void ChessBoard::showbomb() {
+	show(board);
+	return;
+}
+
+void UserBoard::showNumBoard() {
+	show(numboard);
+	return;
+}
+
+void UserBoard::showUserBoard() {
+	show(userboard);
+	return;
 }

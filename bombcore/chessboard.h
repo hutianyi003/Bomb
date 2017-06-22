@@ -8,7 +8,7 @@
 	RightClick(int x, int y) same.
 */
 const int MaxBoardN = 100;
-const int DeltaMove[4][2] = { {0, 1},{0,-1},{-1,0},{1,0} };
+const int DeltaMove[8][2] = { {0, 1},{0,-1},{-1,0},{1,0},{-1,-1},{-1,1},{1,-1},{1,1} };
 
 class ErrorBadData;
 class ErrorUnknown;
@@ -20,10 +20,12 @@ private:
 	int board[MaxBoardN][MaxBoardN] = { 0 };//0 -> nobomb 1 -> bomb
 protected:
 	int x, y, num;
+	void show(int output[MaxBoardN][MaxBoardN]);
 public:
 	ChessBoard(int, int, int); /*three positive numbers and no more than MaxBoardN*/
 	inline bool isBomb(int, int);
 	inline bool isGoodPosition(int, int);
+	void showbomb();
 };
 
 class UserBoard :public ChessBoard {
@@ -39,4 +41,6 @@ public:
 	inline bool isFlag(int, int);
 	inline bool isCover(int, int);
 	inline bool isOpen(int, int);
+	void showUserBoard();
+	void showNumBoard();
 };
