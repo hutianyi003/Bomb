@@ -1,6 +1,7 @@
 #include<ctime>
 #include<iostream>
 #include<random>
+#include<stdexcept>
 #include"chessboard.h"
 using namespace std;
 

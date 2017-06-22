@@ -1,19 +1,26 @@
 #pragma once
-/*
+/************************************************************************************
 	Ver 1.0
+
+Author:Hu Tianyi
+Date:6/22/2016
+Description:
+
 	This Headfile includes classes and functions for making and using chessboard.
 	Commend:Using class UserBoard
+
 	UserBoard(int x, int y, int num) makes a x*y board with num bombs.
 	LeftClick(int x, int y) should work when mouse leftclicks point(x,y) on the board.
 	RightClick(int x, int y) same.
-*/
+
+	There are a few predication functions starting with 'is'.
+
+	Simple tests pass.
+	
+************************************************************************************/
 const int MaxBoardN = 100;
 const int DeltaMove[8][2] = { {0, 1},{0,-1},{-1,0},{1,0},{-1,-1},{-1,1},{1,-1},{1,1} };
 
-class ErrorBadData;
-class ErrorUnknown;
-
-class ChessBoard;
 class ChessBoard {
 private:
 	const int meanBomb = 1;
