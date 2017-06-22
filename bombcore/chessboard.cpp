@@ -1,7 +1,9 @@
 #include<ctime>
+#include<iostream>
 #include<random>
 #include"chessboard.h"
 using namespace std;
+
 
 ChessBoard::ChessBoard(int xx, int yy, int n) :x(xx), y(yy), num(n)
 {
@@ -28,21 +30,51 @@ ChessBoard::ChessBoard(int xx, int yy, int n) :x(xx), y(yy), num(n)
 	}
 }
 
+inline bool ChessBoard::isGoodPosition(int x, int y) {
+	if (x >= 0 && y >= 0 && x <= ChessBoard::x && y <= ChessBoard::y)
+		return true;
+	return false;
+}
 bool UserBoard::isFinish()
 {
-	return false;
+	for (int i = 0; i < x; i++)
+		for (int j = 0; j < y; j++) {
+			if (isBomb(i, j) == false){
+				if (userboard[i][j] == meanOpen)
+					continue;
+				return false;
+			}
+		}
+	return true;
 }
 
 UserBoard::UserBoard(int xx, int yy, int n) :ChessBoard(xx, yy, n)
 {
 	for (int i = 0; i < x; i++)
 		for (int j = 0; j < y; j++) 
-			for (int k = 0; k < 4; k++) {
+			for (int k = 0; k < 9; k++) {
 				int nextx = i + DeltaMove[k][0], nexty = j + DeltaMove[k][1];
 				if (isGoodPosition(nextx, nexty) && isBomb(nextx, nexty))
 					numboard[i][j]++;
 			}
 	return;
+}
+
+bool UserBoard::search(int nowx, int nowy) {
+	// GUI :open (x,y)
+	hasWalk[nowx][nowy] = true;
+	userboard[nowx][nowy] = meanOpen;
+	if (numboard[nowx][nowy] > 0)
+		return true;
+	for (int i = 0; i < 8; i++) {
+		int nextx = nowx + DeltaMove[i][0], nexty = nowy + DeltaMove[i][1];
+		if (isGoodPosition(nextx, nexty) && hasWalk[nextx][nexty] == false
+			&& isBomb(nextx, nexty) == false && userboard[nextx][nexty] == meanCover) {
+			if (search(nextx, nexty) == false)
+				return false;
+		}
+	}
+	return true;
 }
 
 bool UserBoard::LeftClick(int x, int y)
@@ -53,12 +85,18 @@ bool UserBoard::LeftClick(int x, int y)
 		return true;
 	}
 	if (userboard[x][y] == meanCover) {
-		// GUI :open (x,y)
 		if (isBomb(x, y)) {
 			//GameOver
 			return true;
 		}
-		//search for all 0 points and show numbers
+		//reset hasWalk
+		for (int i = 0; i < ChessBoard::x; i++)
+			for (int j = 0; j < ChessBoard::y; j++)
+				hasWalk[i][j] = false;
+		if (search(x, y) == false) return false;
+		if (isFinish()) {
+			// GUI :finish
+		}
 		return true;
 	}
 	if (userboard[x][y] == meanOpen) {
@@ -98,3 +136,27 @@ inline bool UserBoard::isFlag(int x, int y) {
 inline bool UserBoard::isOpen(int x, int y) {
 	return (userboard[x][y] == meanOpen);
 }
+
+void ChessBoard::show(int output[MaxBoardN][MaxBoardN]) {
+	for (int i = 0; i < x; i++) {
+		for (int j = 0; j < y; j++)
+			cout << output[i][j] << ' ';
+		cout << endl;
+	}
+	cout << endl;
+}
+/*
+void ChessBoard::showbomb() {
+	show(board);
+	return;
+}
+
+void UserBoard::showNumBoard() {
+	show(numboard);
+	return;
+}
+
+void UserBoard::showUserBoard() {
+	show(userboard);
+	return;
+}*/
