@@ -109,4 +109,3 @@ inline bool UserBoard::isFlag(int x, int y) {
 inline bool UserBoard::isOpen(int x, int y) {
 	return (userboard[x][y] == meanOpen);
 }
-//123
