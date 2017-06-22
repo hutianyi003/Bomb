@@ -10,11 +10,11 @@ ChessBoard::ChessBoard(int xx, int yy, int n) :x(xx), y(yy), num(n)
 {
 	//Error check
 	if (x <= 0 || y <= 0 || num <= 0) {
-		//throw ErrorBadData("Negative number!!");
+		throw invalid_argument("Negative number!!");
 		return;
 	}
 	if (x > MaxBoardN || y > MaxBoardN || num > x*y) {
-		//throw ErrorBadData("Too large number!!");
+		throw invalid_argument("Too large number!!");
 		return;
 	}
 	//Make bombs
@@ -94,7 +94,10 @@ bool UserBoard::LeftClick(int x, int y)
 		for (int i = 0; i < ChessBoard::x; i++)
 			for (int j = 0; j < ChessBoard::y; j++)
 				hasWalk[i][j] = false;
-		if (search(x, y) == false) return false;
+		if (search(x, y) == false) {
+			throw exception("Unknown Error");
+			return false;
+		}
 		if (isFinish()) {
 			// GUI :finish
 		}
