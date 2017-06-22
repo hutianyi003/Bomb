@@ -35,6 +35,13 @@ bool UserBoard::isFinish()
 
 UserBoard::UserBoard(int xx, int yy, int n) :ChessBoard(xx, yy, n)
 {
+	for (int i = 0; i < x; i++)
+		for (int j = 0; j < y; j++) 
+			for (int k = 0; k < 4; k++) {
+				int nextx = i + DeltaMove[k][0], nexty = j + DeltaMove[k][1];
+				if (isGoodPosition(nextx, nexty) && isBomb(nextx, nexty))
+					numboard[i][j]++;
+			}
 	return;
 }
 
