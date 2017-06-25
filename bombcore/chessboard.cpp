@@ -3,24 +3,23 @@
 #include<random>
 #include<stdexcept>
 #include"chessboard.h"
-using namespace std;
 
 
 ChessBoard::ChessBoard(int xx, int yy, int n) :x(xx), y(yy), num(n)
 {
 	//Error check
 	if (x <= 0 || y <= 0 || num <= 0) {
-		throw invalid_argument("Negative number!!");
+		throw std::invalid_argument("Negative number!!");
 		return;
 	}
 	if (x > MaxBoardN || y > MaxBoardN || num > x*y) {
-		throw invalid_argument("Too large number!!");
+		throw std::invalid_argument("Too large number!!");
 		return;
 	}
 	//Make bombs
-	default_random_engine generator((unsigned int)time(NULL));
-	uniform_int_distribution<int> disx(0, x-1);
-	uniform_int_distribution<int> disy(0, y-1);
+	std::default_random_engine generator((unsigned int)time(NULL));
+	std::uniform_int_distribution<int> disx(0, x-1);
+	std::uniform_int_distribution<int> disy(0, y-1);
 	int t = num;
 	while (t > 0) {
 		int choosex = disx(generator), choosey = disy(generator);
@@ -95,7 +94,7 @@ bool UserBoard::LeftClick(int x, int y)
 			for (int j = 0; j < ChessBoard::y; j++)
 				hasWalk[i][j] = false;
 		if (search(x, y) == false) {
-			throw exception("Unknown Error");
+			throw std::exception("Unknown Error");
 			return false;
 		}
 		if (isFinish()) {
@@ -144,10 +143,10 @@ inline bool UserBoard::isOpen(int x, int y) {
 void ChessBoard::show(int output[MaxBoardN][MaxBoardN]) {
 	for (int i = 0; i < x; i++) {
 		for (int j = 0; j < y; j++)
-			cout << output[i][j] << ' ';
-		cout << endl;
+			std::cout << output[i][j] << ' ';
+		std::cout << std::endl;
 	}
-	cout << endl;
+	std::cout << std::endl;
 }
 /*
 void ChessBoard::showbomb() {
